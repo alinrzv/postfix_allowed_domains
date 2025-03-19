@@ -1,4 +1,6 @@
-# Postfix SMTP Allowed Domains - Plugin for aaPanel
+ï»¿# Postfix SMTP Allowed Domains - Plugin for aaPanel
+
+## Without this plugin and setup, your mail server can be flooded by bots constantly attempting to connect, which can slow down email processing and reduce overall sending performance. By implementing this solution, unauthorized SMTP connection requests are blocked immediately, ensuring that legitimate emails are sent faster and more efficiently, without unnecessary delays caused by spam or bot traffic. í ½íº€
 
 ## Overview
 The **Postfix SMTP Allowed Domains Plugin** for **aaPanel** enables administrators to restrict SMTP sending to specific allowed domains. This plugin automatically configures Postfix to enforce sender restrictions using an `allowed_domains` list.

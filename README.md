@@ -4,7 +4,7 @@
 The **Postfix SMTP Allowed Domains Plugin** for **aaPanel** enables administrators to restrict SMTP sending to specific allowed domains. This plugin automatically configures Postfix to enforce sender restrictions using an `allowed_domains` list.
 
 ### Understanding smtpd_sender_restrictions in Postfix
-The smtpd_sender_restrictions directive in Postfix is used to define rules that control which senders are allowed or denied from sending emails through the server.
+The **smtpd_sender_restrictions** directive in **Postfix** is used to define rules that control which senders are allowed or denied from sending emails through the server.
 
 ## Features
 - **Restricts SMTP sending** to predefined domains.

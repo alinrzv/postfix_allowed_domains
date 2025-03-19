@@ -1,0 +1,81 @@
+<style>
+    .postfix-table table tbody tr td span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 580px;
+        display: block;
+    }
+</style>
+
+<div class="bt-form">
+    <div class="bt-w-main">
+        <div class="bt-w-menu">
+            <p class="bgw" onclick="postfix.show_domains()">Manage Domains</p>
+            <p onclick="postfix.show_add_domain()">Add New Domain</p>
+        </div>
+
+        <div class="bt-w-con pd15">
+            <div class="plugin_body" id="postfix_content">
+                <p>Loading...</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+var postfix = {
+    show_domains: function() {
+        let html = "<h3>Allowed Domains</h3>";
+        html += "<table class='table'><thead><tr><th>Domain</th><th>Actions</th></tr></thead><tbody>";
+        
+        $.get("/plugin?action=a&name=postfix_allowed_domains&s=get_domains", function(data) {
+            if (data.domains.length > 0) {
+                data.domains.forEach(domain => {
+                    html += "<tr><td>" + domain + "</td><td><button class='btn btn-danger btn-sm' onclick='postfix.remove_domain(\"" + domain + "\")'>Remove</button></td></tr>";
+                });
+            } else {
+                html += "<tr><td colspan='2'>No allowed domains found.</td></tr>";
+            }
+            html += "</tbody></table>";
+            $("#postfix_content").html(html);
+        });
+    },
+
+    show_add_domain: function() {
+        let html = "<h3>Add New Domain</h3><hr/>";
+        html += "<form id='addDomainForm'><input type='text' id='domainInput' class='bt-input-text mr5' placeholder='Enter domain' required>";
+        html += "<button type='submit' class='btn btn-success btn-sm'>Add Domain</button></form>";
+        $("#postfix_content").html(html);
+
+        $(document).off('submit', '#addDomainForm').on('submit', '#addDomainForm', function(event) {
+            event.preventDefault();
+            postfix.add_domain();
+        });
+    },
+
+    add_domain: function() {
+        let domain = $("#domainInput").val();
+        if (!domain) {
+            alert("Please enter a domain.");
+            return;
+        }
+        $.post("/plugin?action=a&name=postfix_allowed_domains&s=add_domain", { domain: domain }, function(response) {
+            alert(response.msg);
+            postfix.show_domains();
+        });
+    },
+
+    remove_domain: function(domain) {
+        if (!confirm("Are you sure you want to remove " + domain + "?")) return;
+        $.post("/plugin?action=a&name=postfix_allowed_domains&s=remove_domain", { domain: domain }, function(response) {
+            alert(response.msg);
+            postfix.show_domains();
+        });
+    }
+};
+
+$(document).ready(function() {
+    postfix.show_domains();
+});
+</script>

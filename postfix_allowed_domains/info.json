@@ -1,0 +1,9 @@
+{
+    "title": "Postfix SMTP Allowed Domains Manager",
+    "name": "postfix_allowed_domains",
+    "ps": "Manage SMTP allowed domains for Postfix directly from aaPanel",
+    "versions": "1.0",
+    "checks": "/www/server/panel/plugin/postfix_allowed_domains",
+    "author": "Alin Razvan",
+    "home": "https://webake.ro"
+}

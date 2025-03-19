@@ -67,6 +67,10 @@ var postfix = {
         }
         $.post("/plugin?action=a&name=postfix_allowed_domains&s=add_domain", { domain: domain }, function(response) {
             alert(response.msg);
+
+            // Switch back to "Manage Domains" tab using switch_tab
+            let manageDomainsTab = $(".bt-w-menu p:first"); // Select the first tab (Manage Domains)
+            postfix.switch_tab(manageDomainsTab);
             postfix.show_domains();
         });
     },

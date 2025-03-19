@@ -11,8 +11,8 @@
 <div class="bt-form">
     <div class="bt-w-main">
         <div class="bt-w-menu">
-            <p class="bgw" onclick="postfix.show_domains()">Manage Domains</p>
-            <p onclick="postfix.show_add_domain()">Add New Domain</p>
+            <p class="bgw" onclick="postfix.switch_tab(this); postfix.show_domains()">Manage Domains</p>
+            <p onclick="postfix.switch_tab(this); postfix.show_add_domain()">Add New Domain</p>
         </div>
 
         <div class="bt-w-con pd15">
@@ -25,6 +25,11 @@
 
 <script>
 var postfix = {
+    switch_tab: function(element) {
+        $(".bt-w-menu p").removeClass("bgw"); // Remove 'bgw' from all tabs
+        $(element).addClass("bgw"); // Add 'bgw' to the clicked tab
+    },
+
     show_domains: function() {
         let html = "<h3>Allowed Domains</h3>";
         html += "<table class='table'><thead><tr><th>Domain</th><th>Actions</th></tr></thead><tbody>";

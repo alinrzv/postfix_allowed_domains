@@ -26,7 +26,7 @@ Install_postfix_allowed_domains()
         echo "Postfix configuration already has SMTP SEND ONLY from postfix_allowed_domains."
     else
         echo "Enabling SMTP SEND ONLY from postfix_allowed_domains to Postfix configuration..."
-        echo "$RESTRICTION_LINE" >> "$POSTFIX_CONFIG"
+        postconf -e "$RESTRICTION_LINE"
     fi
 
     if [ -f "$PLUGIN_ICON_DEST" ]; then
@@ -53,19 +53,11 @@ Uninstall_postfix_allowed_domains()
     echo "Removing plugin directory..."
     rm -rf "$PLUGIN_DIR"
 
-    # Remove the restriction line from the config, handling possible spaces or tabs
     if grep -q "smtpd_sender_restrictions.*allowed_domains" "$POSTFIX_CONFIG"; then
         echo "Removing SMTP SEND ONLY from postfix_allowed_domains from Postfix configuration..."
-        sed -i "/^[[:space:]]*smtpd_sender_restrictions[[:space:]]*=[[:space:]]*check_sender_access[[:space:]]*hash:\/etc\/postfix\/allowed_domains[[:space:]]*$/d" "$POSTFIX_CONFIG"
+        postconf -X smtpd_sender_restrictions
     else
         echo "SMTP SEND ONLY from postfix_allowed_domains not found in Postfix configuration, ignoring setting removal..."
-    fi
-
-    # Double-check if the line is actually removed
-    if grep -q "smtpd_sender_restrictions.*allowed_domains" "$POSTFIX_CONFIG"; then
-        echo "Error: The smtpd_sender_restrictions line is still present in main.cf!"
-    else
-        echo "Successfully removed smtpd_sender_restrictions from main.cf."
     fi
 
     if [ -f "$PLUGIN_ICON_DEST" ]; then
